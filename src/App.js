@@ -1,26 +1,25 @@
 import React from 'react';
-import logo from './logo.svg';
+import { boilerPlateData } from "./data.js";
 import './App.css';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+export default () => {
+  const generateCardsFromData = collection => {
+    return collection.map(item => {
+      return (
+        <div className="card">
+          <div key={item.id}>
+            <h2>{item.name}</h2>
+            <h4>Strength: {item.strength}</h4>
+            <p>{item.description}</p>
+          </div>
+        </div>
+      );
+    });
+  };
 
-export default App;
+  return (
+    <div className="main">
+      {generateCardsFromData(boilerPlateData)}
+    </div>
+    );
+};
