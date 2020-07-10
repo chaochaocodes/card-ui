@@ -38,6 +38,15 @@ const leftArrow = ({prevSlide, nextSlide}) => {
 // included with onClick event
 // rendering of carousel
 
+// time-triggered auto-rotation
+React.useEffect(() => {
+    // number of slides from 0 to last
+    const next = (current + 1) % slides.length;
+    const id = setTimeout(() => setCurrent(next), time);
+    return () => clearTimeout(id);
+  }, [current]);
+
+  
 export const carousel = {
     myCarousel,
     leftArrow,
