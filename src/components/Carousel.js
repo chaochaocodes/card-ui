@@ -1,4 +1,49 @@
-import React from 'react';
+import React, { useReducer } from 'react';
+
+// state change with user swipe/drag using useReducer
+const [state, dispatch] = useReducer(carouselReducer, initialCarouselState);
+
+const initialCarouselState = {
+    // user's current dragging efforts
+    offset: 0,
+    // transitioning into this slide
+    desired: 0,
+    // current slide
+    active: 0,
+}
+
+function carouselReducer(state, action) {
+    switch (action.type) {
+      case "jump":
+        return {
+          ...state,
+          desired: action.desired
+        };
+      case "next":
+        return {
+          ...state,
+          desired: next(action.length, state.active)
+        };
+      case "prev":
+        return {
+          ...state,
+          desired: previous(action.length, state.active)
+        };
+      case "done":
+        return {
+          ...state,
+          offset: NaN,
+          active: state.desired
+        };
+      case "drag":
+        return {
+          ...state,
+          offset: action.offset
+        };
+      default:
+        return state;
+    }
+  }
 
 const myCarousel = ({ slideTime }) => {
     const carouselBehavior = useCarousel(slideTime);
@@ -46,7 +91,7 @@ React.useEffect(() => {
     return () => clearTimeout(id);
   }, [current]);
 
-  
+
 export const carousel = {
     myCarousel,
     leftArrow,
